@@ -29,7 +29,7 @@ Generator.prototype.run = function(schemas, file, errors) {
         this.sortFunction_req(this.schemas[0]);
     }
 
-    file.writeln("Ext.define('" + this.params.namespace + "ModelDownloader', { ");
+    file.writeln("Ext.define('" + this.params.namespace + "extjsModelRequires', { ");
     file.indent++;
 
     file.writeln("Download: function() {");
