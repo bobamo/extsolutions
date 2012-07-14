@@ -23,8 +23,8 @@ Generator.prototype.run = function(schema, file, errors) {
     file.writeln("Ext.define('" + this.params.namespace + schemaName + "', { ");
     file.indent++;
 
-    file.writeln("alias: '" + schemaName + "'");
     file.writeln("extend: '" + parentSchemaName + "',");
+    file.writeln("alias: '" + schemaName + "'");
     file.writeln("");
 
     this.generateFields();

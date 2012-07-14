@@ -32,6 +32,7 @@ Generator.prototype.run = function(schemas, file, errors) {
     file.writeln("Ext.define('" + this.params.namespace + "extjsModelRequires', { ");
     file.indent++;
 
+
     file.writeln("Download: function() {");
     file.indent++;
 
