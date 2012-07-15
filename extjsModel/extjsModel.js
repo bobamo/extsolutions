@@ -12,7 +12,7 @@ Generator.prototype.run = function(schema, file, errors) {
     this.errors = errors;
 
     var schemaName = schema.get('name'),
-        parentSchemaName = "natjs.data.NATModel";
+        parentSchemaName = "Ext.data.Model";
 
     if (schema.parentNode != null) {
         parentSchemaName = this.params.namespace + schema.parentNode.get('name');
