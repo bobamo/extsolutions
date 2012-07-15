@@ -28,9 +28,9 @@ Generator.prototype.run = function(schema, file, errors) {
     this.generateFields();
 
     file.indent--;
-    file.writeln("});");//
+    file.writeln("});");
 
-    file.writeln("exports.CRBaseObject.plugin(commonPlugin);");
+    file.writeln("exports." + schemaName + ".plugin(commonPlugin);");
 };
 
 Generator.prototype.generateRequires = function() {
