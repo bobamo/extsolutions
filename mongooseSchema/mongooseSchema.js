@@ -16,8 +16,7 @@ Generator.prototype.run = function(schema, file, errors) {
     file.set('name', schemaName + '.js');
 
     file.writeln("var mongoose = require('mongoose')");
-    file.writeln("   ,Schema = mongoose.Schema");
-    file.writeln("   ,commonPlugin = require('../schemaPlugins/common.js');");
+    file.writeln("   ,Schema = mongoose.Schema;");
 
     this.generateRequires();
 
