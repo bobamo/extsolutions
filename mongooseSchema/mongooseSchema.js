@@ -28,8 +28,6 @@ Generator.prototype.run = function(schema, file, errors) {
 
     file.indent--;
     file.writeln("});");
-
-    file.writeln("exports." + schemaName + ".plugin(commonPlugin);");
 };
 
 Generator.prototype.generateRequires = function() {
