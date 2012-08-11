@@ -1,5 +1,6 @@
 function Generator(params) {
     this.params = params;
+    this.params.namespace = this.params.namespace || '';
 }
 
 Generator.prototype.getType = function() {
