@@ -7,6 +7,12 @@ Generator.prototype.getType = function() {
     return 'schema';
 };
 
+Generator.prototype.getRequiredCustomProperties = function() {
+    var result = [];
+    result.push({ frameworkItem: 'schema', name: 'isPersistent', type: 'boolean', defaultValue: false });
+    return result;
+};
+
 Generator.prototype.run = function(schema, file, errors) {
     this.schema = schema;
     this.file = file;
@@ -35,10 +41,6 @@ Generator.prototype.run = function(schema, file, errors) {
 
     file.indent--;
     file.writeln("});");
-
-    if (schema.get('isHierarchy')) {
-        file.writeln("Ext.data.NodeInterface.decorate(Ext.create('" + this.params.namespace + schema.get('name') + "'));");
-    }
 };
 
 Generator.prototype.generateFields = function() {
@@ -70,26 +72,23 @@ Generator.prototype.generateFields = function() {
 Generator.prototype.generateStringProperty = function(prop) {
     var rp = prop.getRealProperties(),
         strDV = (rp.defaultValue != '') ? ", defaultValue: '" + rp.defaultValue + "'" : "",
-        strPersistent = (!rp.isPersistent) ? ", persist: false" : "",
-        strDebug = (rp.isDebug) ? ", debug: true" : "";
+        strPersistent = (!rp.isPersistent) ? ", persist: false" : "";
 
-    this.file.writeln(this.file.comma() + "{ name: '" + rp.name + "', type: 'string'" + strDV + strPersistent + strDebug + " }");
+    this.file.writeln(this.file.comma() + "{ name: '" + rp.name + "', type: 'string'" + strDV + strPersistent + " }");
 };
 
 Generator.prototype.generateBooleanProperty = function(prop) {
     var rp = prop.getRealProperties(),
         strDV = (rp.defaultValue) ? ", defaultValue: true" : "",
-        strPersistent = (!rp.isPersistent) ? ", persist: false" : "",
-        strDebug = (rp.isDebug) ? ", debug: true" : "";
+        strPersistent = (!rp.isPersistent) ? ", persist: false" : "";
 
-    this.file.writeln(this.file.comma() + "{ name: '" + rp.name + "', type: 'boolean'" + strDV + strPersistent + strDebug + " }");
+    this.file.writeln(this.file.comma() + "{ name: '" + rp.name + "', type: 'boolean'" + strDV + strPersistent + " }");
 };
 
 Generator.prototype.generateDateProperty = function(prop) {
     var rp = prop.getRealProperties(),
         strDV = "",
-        strPersistent = (!rp.isPersistent) ? ", persist: false" : "",
-        strDebug = (rp.isDebug) ? ", debug: true" : "";
+        strPersistent = (!rp.isPersistent) ? ", persist: false" : "";
 
     if (rp.defaultValue != null) {
         strDV = ", defaultValue: '" + rp.defaultValue + "'";
@@ -97,36 +96,33 @@ Generator.prototype.generateDateProperty = function(prop) {
         if (!rp.isNullable) strDV = ", defaultValue: new Date(0)";
     }
 
-    this.file.writeln(this.file.comma() + "{ name: '" + rp.name + "', type: 'date'" + strDV + strPersistent + strDebug + " }");
+    this.file.writeln(this.file.comma() + "{ name: '" + rp.name + "', type: 'date'" + strDV + strPersistent + " }");
 };
 
 Generator.prototype.generateIntProperty = function(prop) {
     var rp = prop.getRealProperties(),
         strDV = (rp.defaultValue != 0) ? ", defaultValue: '" + rp.defaultValue + "'" : "",
-        strPersistent = (!rp.isPersistent) ? ", persist: false" : "",
-        strDebug = (rp.isDebug) ? ", debug: true" : "";
+        strPersistent = (!rp.isPersistent) ? ", persist: false" : "";
 
-    this.file.writeln(this.file.comma() + "{ name: '" + rp.name + "', type: 'int'" + strDV + strPersistent + strDebug + " }");
+    this.file.writeln(this.file.comma() + "{ name: '" + rp.name + "', type: 'int'" + strDV + strPersistent + " }");
 };
 
 Generator.prototype.generateAutoProperty = function(prop) {
     var rp = prop.getRealProperties(),
         strDV = "",
-        strPersistent = (!rp.isPersistent) ? ", persist: false" : "",
-        strDebug = (rp.isDebug) ? ", debug: true" : "";
+        strPersistent = (!rp.isPersistent) ? ", persist: false" : "";
 
-    this.file.writeln(this.file.comma() + "{ name: '" + rp.name + "', type: 'auto'" + strDV + strPersistent + strDebug + " }");
+    this.file.writeln(this.file.comma() + "{ name: '" + rp.name + "', type: 'auto'" + strDV + strPersistent + " }");
 };
 
 Generator.prototype.generateReferenceProperty = function(prop) {
     var rp = prop.getRealProperties(),
         name = prop.getFieldName(),
         strDV = "",
-        strPersistent = (!rp.isPersistent) ? ", persist: false" : "",
-        strDebug = (rp.isDebug) ? ", debug: true" : "";
+        strPersistent = (!rp.isPersistent) ? ", persist: false" : "";
 
 
-    this.file.writeln(this.file.comma() + "{ name: '" + name + "', type: 'string'" + strDV + strPersistent + strDebug + " }");
+    this.file.writeln(this.file.comma() + "{ name: '" + name + "', type: 'string'" + strDV + strPersistent + " }");
 };
 
 Generator.prototype.generateAssociations = function() {
