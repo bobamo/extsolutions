@@ -9,7 +9,7 @@ Generator.prototype.getType = function() {
 
 Generator.prototype.getRequiredCustomProperties = function() {
     var result = [];
-    result.push({ frameworkItem: 'All Properties', name: 'isPersistent', type: 'PPBooleanProperty', defaultValue: true });
+    result.push({ frameworkItem: 'All Properties', name: 'isPersistent', type: 'Boolean', defaultValue: true });
     return result;
 };
 
