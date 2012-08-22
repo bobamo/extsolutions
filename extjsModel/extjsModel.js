@@ -207,3 +207,4 @@ Generator.prototype.generateValidations = function() {
     this.file.indent--;
     this.file.writeln("]");
 };
+
