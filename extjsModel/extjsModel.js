@@ -37,7 +37,6 @@ Generator.prototype.run = function(schema, file, errors) {
     this.generateFields();
     this.generateAssociations();
     this.generateValidations();
-    this.generateFieldInfos();
 
     file.indent--;
     file.writeln("});");
@@ -61,6 +60,7 @@ Generator.prototype.generateFields = function() {
             case 'designer.model.PPAutoProperty': this.generateAutoProperty(prop); break;
             case 'designer.model.PPReferenceProperty': this.generateReferenceProperty(prop); break;
             case 'designer.model.PPObjectProperty': break;
+            case 'designer.model.PPObjectIdProperty': this.generateObjectIdProperty(prop); break;
             default: this.errors.push("unsupported property: " + prop.$className + ": " + prop.get('name') + " \n");
         }
     }
@@ -123,6 +123,14 @@ Generator.prototype.generateReferenceProperty = function(prop) {
 
 
     this.file.writeln(this.file.comma() + "{ name: '" + name + "', type: 'string'" + strDV + strPersistent + " }");
+};
+
+Generator.prototype.generateObjectIdProperty = function(prop) {
+    var rp = prop.getRealProperties(),
+        strDV = "",
+        strPersistent = (!rp.isPersistent) ? ", persist: false" : "";
+
+    this.file.writeln(this.file.comma() + "{ name: '" + rp.name + "', type: 'auto'" + strDV + strPersistent + " }");
 };
 
 Generator.prototype.generateAssociations = function() {
@@ -196,25 +204,6 @@ Generator.prototype.generateValidations = function() {
         }
     }
 
-    this.file.indent--;
-    this.file.writeln("]");
-};
-
-Generator.prototype.generateFieldInfos = function() {
-    if (this.schema['hasMany_properties'] == null) return;
-
-    this.file.writeln(",fieldInfos: [");
-    this.file.indent++;
-    /*
-     isFirstComma = true;
-     for (var i = 0; i < schema.hasMany_properties.count(); i++) {
-     var prop = schema.hasMany_properties.getAt(i),
-     name = prop.get('name'),
-     isNullable = prop.get('isNullable') ? ", isNullable: true" : "";
-
-     this.file.writeln(this.file.comma() + "{ name: '" + name + "'" + isNullable + " }");
-     }
-     */
     this.file.indent--;
     this.file.writeln("]");
 };
